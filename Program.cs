@@ -27,6 +27,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     )
 );
 builder.Services.AddScoped<ISeatService, SeatService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 // JWT Authentication
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var key = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]!);
