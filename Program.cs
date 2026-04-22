@@ -26,8 +26,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")
     )
 );
-builder.Services.AddScoped<ISeatService, SeatService>();
-builder.Services.AddScoped<IBookingService, BookingService>();
+
 // JWT Authentication
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var key = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]!);
@@ -61,7 +60,11 @@ builder.Services.AddAuthorization(options =>
 
 // Services
 builder.Services.AddScoped<IAuthService, AuthService>();
-
+builder.Services.AddScoped<ISeatService, SeatService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
