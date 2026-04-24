@@ -64,5 +64,16 @@ namespace StudySpace.API.Controllers
             await _seatService.ToggleSeatStatusAsync(id);
             return Ok(ApiResponse<object>.Ok(null!, "Seat status toggled"));
         }
+
+       [HttpGet("grid")]
+[Authorize]
+public async Task<IActionResult> GetGrid(
+    [FromQuery] int month,
+    [FromQuery] int year,
+    [FromQuery] string? floor)
+{
+    var result = await _seatService.GetSeatGridAsync(month, year, floor);
+    return Ok(ApiResponse<List<SeatStatusDto>>.Ok(result));
+}
     }
 }

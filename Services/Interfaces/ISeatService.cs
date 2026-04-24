@@ -10,5 +10,6 @@ namespace StudySpace.API.Services.Interfaces
         Task<SeatResponseDto> AddSeatAsync(SeatRequestDto dto);
         Task<SeatResponseDto> UpdateSeatAsync(int id, SeatRequestDto dto);
         Task ToggleSeatStatusAsync(int id);
+ Task<List<SeatStatusDto>> GetSeatGridAsync(int month, int year, string? floor);
     }
 }

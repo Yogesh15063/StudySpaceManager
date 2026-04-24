@@ -128,5 +128,31 @@ namespace StudySpace.API.Services
             seat.IsActive = !seat.IsActive;
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<SeatStatusDto>> GetSeatGridAsync(int month, int year, string? floor)
+        {
+            var bookedSeatIds = await _context.Bookings
+                .Where(b => b.Month == month
+                    && b.Year == year
+                    && b.Status != "Cancelled")
+                .Select(b => b.SeatId)
+                .ToListAsync();
+
+            var query = _context.Seats.Where(s => s.IsActive);
+
+            if (!string.IsNullOrEmpty(floor))
+                query = query.Where(s => s.Floor == floor);
+
+            return await query.Select(s => new SeatStatusDto
+            {
+                Id = s.Id,
+                SeatNumber = s.SeatNumber,
+                Floor = s.Floor,
+                Type = s.Type,
+                MonthlyPrice = s.MonthlyPrice,
+                IsBooked = bookedSeatIds.Contains(s.Id),
+                IsActive = s.IsActive
+            }).ToListAsync();
+        }
     }
 }
